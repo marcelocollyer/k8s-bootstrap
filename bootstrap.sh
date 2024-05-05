@@ -3,9 +3,12 @@
 # Install Istio and include it to PATH
 eval "$(curl -L https://istio.io/downloadIstio | sh - | sed -n '/export PATH.*/p')"
 
+k3d cluster delete
+k3d cluster create -p "8000:30000@loadbalancer" --agents 2
+
 # start clean cluster
-minikube delete
-minikube start --cpus 4 --memory 8192
+#minikube delete
+#minikube start --cpus 4 --memory 15000
 
 # Create namespace for Argo CD
 kubectl create namespace argocd
@@ -14,7 +17,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 # Install Istio and set it to work with default namespace (use specific namespaces for your apps in prod!)
 kubectl create namespace istio-system
-istioctl install --set profile=default -y
+istioctl install -y
 kubectl label namespace default istio-injection=enabled
 
 # addons
@@ -24,8 +27,8 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.21/samp
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.21/samples/addons/kiali.yaml
 
 # install minikube addons for elastic stack to work properly
-minikube addons enable default-storageclass
-minikube addons enable storage-provisioner
+#minikube addons enable default-storageclass
+#minikube addons enable storage-provisioner
 
 # Install custom resource definitions:
 kubectl create -f https://download.elastic.co/downloads/eck/2.12.1/crds.yaml

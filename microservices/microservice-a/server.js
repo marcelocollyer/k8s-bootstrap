@@ -9,7 +9,7 @@ const microserviceId = 'Microservice-a v2'
 
 app.get('/', async (req, res) => {
     try {
-        print(`${microserviceId}. calling Microservice B`);
+        console.log(`${microserviceId}. calling Microservice B`);
         const response = await axios.get(microserviceBUrl);
         res.send(`${microserviceId}. Response from Microservice B: ${response.data}`);
     } catch (error) {

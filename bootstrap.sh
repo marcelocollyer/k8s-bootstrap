@@ -10,6 +10,10 @@ k3d cluster create -p "8000:30000@loadbalancer" --agents 2
 #minikube delete
 #minikube start --cpus 4 --memory 15000
 
+# install minikube addons for elastic stack to work properly
+#minikube addons enable default-storageclass
+#minikube addons enable storage-provisioner
+
 # Create namespace for Argo CD
 kubectl create namespace argocd
 # Install Argo CD
@@ -25,10 +29,6 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.21/samp
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.21/samples/addons/jaeger.yaml
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.21/samples/addons/grafana.yaml
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.21/samples/addons/kiali.yaml
-
-# install minikube addons for elastic stack to work properly
-#minikube addons enable default-storageclass
-#minikube addons enable storage-provisioner
 
 # Install custom resource definitions:
 kubectl create -f https://download.elastic.co/downloads/eck/2.12.1/crds.yaml
@@ -61,12 +61,12 @@ helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dash
 # create service and permission
 kubectl apply -f ./k8s-dashboard/dashboard-adminuser.yaml
 # creates a baerier token for kubernetes-dashboard
-kubectl -n kubernetes-dashboard create token admin-user
-# prints kubernetes dashboard baerer token
+
+# creates and prints kubernetes dashboard baerer token
 echo "k8s dashboard password: $(kubectl -n kubernetes-dashboard create token admin-user)"
 
 # sets context to work on default namespace
 kubectl config set-context --current --namespace default
 
 # deploy simple nginx pods, replicaset and service
-kubectl apply -f deployment.yaml
+kubectl apply -f deployment-v1.yaml

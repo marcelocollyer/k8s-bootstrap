@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: nginx-routing
+spec:
+  hosts:
+  - nginx
+  http:
+  - match:
+    - sourceLabels:
+        version: v1
+    route:
+    - destination:
+        host: nginx
+        subset: v1
+  - match:
+    - sourceLabels:
+        version: v2
+    route:
+    - destination:
+        host: nginx
+        subset: v2

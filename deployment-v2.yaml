@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: microservice-a
+  name: microservice-a-v2
 spec:
   replicas: 1
   selector:
@@ -22,7 +22,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: microservice-b
+  name: microservice-b-v2
 spec:
   replicas: 1
   selector:
@@ -43,7 +43,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: microservice-c
+  name: microservice-c-v2
 spec:
   replicas: 1
   selector:

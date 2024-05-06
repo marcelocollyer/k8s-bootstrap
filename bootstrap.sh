@@ -70,3 +70,6 @@ kubectl config set-context --current --namespace default
 
 # deploy pods, replicaset, services, virtual services and destination
 kubectl apply -f ./cluster-resources/.
+
+# start kiali dashboard
+istioctl dashboard kiali &

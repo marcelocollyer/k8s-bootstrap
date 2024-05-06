@@ -63,7 +63,7 @@ To get started with this project, follow the steps below:
 
 ### Clone the Repository
 ~~~
-git clone https://github.com/marcelocollyer/k8s-bootstrap
+git clone https://github.com/marcelocollyer/k8s-version-control
 ~~~
 ### Run Bootstrap Script
 This should deploy versions v1 and v2 of the microservices to simulate a blue-green deployment. Traffic will be 50% - 50% for each microservice version stack.

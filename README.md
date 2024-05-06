@@ -87,6 +87,50 @@ Microservice A v1 -> Microservice B v1 -> Microservice C v1
 Microservice A v2 -> Microservice B v2 -> Microservice C v2
 ~~~
 
+## Observe microservices on Kiali - traffic across microservices
+![alt text](images/kiali-traffic.png)
+
+Now all traffic that hits microservice-a service is being redirected to the proper microservice-b service based on pre-determined rules.</br>
+These routes are defined in the Virtual Service for the host microservice-b:
+~~~
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: microservice-b-routing
+spec:
+  hosts:
+  - microservice-b
+  http:
+  - match:
+    - sourceLabels:
+        app: microservice-a
+        version: v1
+    route:
+    - destination:
+        host: microservice-b
+        subset: v1
+~~~
+
+## Conclusion
+This project demonstrated the powerful capabilities of Kubernetes and Istio in orchestrating and managing microservices within a cloud-native environment. </br>
+By leveraging Istio’s advanced traffic management features, we successfully implemented a robust blue-green deployment strategy, ensuring seamless version transitions and minimizing potential disruptions.</br>
+This setup empowers teams to maintain high availability and quick recovery from errors during deployments, making it an ideal choice for production environments where stability and downtime minimization are critical.
+
+Key outcomes of the project include:
+- **Effective Version Isolation**: Using Istio’s Virtual Services and Destination Rules, we established strict communication protocols between microservices based on their versions. This ensured that only compatible versions of services could interact, significantly reducing the risk of errors due to incompatible API endpoints.
+- **Enhanced Observability**: With tools like Kiali, Prometheus, and Grafana integrated into the service mesh, we gained deep insights into the behavior and performance of our microservices. This observability is crucial for diagnosing issues, understanding traffic patterns, and making informed decisions about scaling and optimizations.
+- **Development and Testing Flexibility**: The use of K3D for local development and testing provided a lightweight, yet fully functional, Kubernetes environment that mimics production settings, allowing for accurate testing and development without heavy resource consumption and unnecessary costs.
+
+Additionally, this project is well-positioned to take advantage of ArgoCD's rollout strategies in production environments. ArgoCD enhances our deployment capabilities by enabling automated, predictable, and safe application deployment workflows. </br>
+Using ArgoCD's progressive delivery techniques such as canary releases and blue-green deployments, organizations can gradually introduce new features and roll back if anomalies are detected, thus increasing the resilience and reliability of the deployment process. </br>
+Integrating ArgoCD into our Kubernetes ecosystem allows us to streamline our CI/CD pipelines, ensuring that updates are delivered efficiently and without user disruption.
+
+Through this proof of concept, it has become evident that a well-configured Kubernetes and Istio environment can serve as a robust foundation for developing and deploying scalable, resilient, and secure microservice architectures. Future enhancements will focus on expanding the use of automated deployment strategies, exploring more complex service interaction patterns, and refining our observability stack to include more granular tracing and logging capabilities.
+
+For those new to microservices or cloud-native technologies, this project serves as a practical example of how to build and manage a sophisticated microservices ecosystem using some of the industry's leading technologies. The principles and practices demonstrated here are applicable in a variety of real-world scenarios, making it a valuable resource for developers and system architects aiming to enhance their DevOps and cloud infrastructure skills.
+
+Thank you for exploring this project. I look forward to your contributions, feedback, and questions, which will help evolve this POC into an even more useful resource for the developer community. Please feel free to reach out through the contact details provided or via GitHub issues for more discussions.
+
 ## Contact Information
 Marcelo Collyer </br>
 marcelocollyer@gmail.com</br>

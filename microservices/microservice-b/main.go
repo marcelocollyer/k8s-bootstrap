@@ -30,7 +30,7 @@ func callMicroserviceC() string {
 func main() {
     http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
         responseC := callMicroserviceC()
-        response := fmt.Sprintf("%s. Response from Microservice C: %s", microserviceId, responseC)
+        response := fmt.Sprintf("%s -> %s", microserviceId, responseC)
         fmt.Println(response)
         w.Write([]byte(response))
     })

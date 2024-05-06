@@ -5,13 +5,13 @@ const app = express();
 const port = process.env.PORT || 80;
 
 const microserviceBUrl = 'http://microservice-b:80';
-const microserviceId = 'Microservice-a v2'
+const microserviceId = 'Microservice A v2' //alternate between versions in order to build proper docker images
 
 app.get('/', async (req, res) => {
     try {
         console.log(`${microserviceId}. calling Microservice B`);
         const response = await axios.get(microserviceBUrl);
-        res.send(`${microserviceId}. Response from Microservice B: ${response.data}`);
+        res.send(`${microserviceId}. -> ${response.data}`);
     } catch (error) {
         res.status(500).send(`${microserviceId}. Failed to fetch data from Microservice B`);
     }

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: microservice-a-v2
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: microservice-a
@@ -24,7 +24,7 @@ kind: Deployment
 metadata:
   name: microservice-b-v2
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: microservice-b
@@ -45,7 +45,7 @@ kind: Deployment
 metadata:
   name: microservice-c-v2
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: microservice-c

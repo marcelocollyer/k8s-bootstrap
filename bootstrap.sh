@@ -14,11 +14,6 @@ k3d cluster create -p "8000:30000@loadbalancer" --agents 2
 #minikube addons enable default-storageclass
 #minikube addons enable storage-provisioner
 
-# Create namespace for Argo CD
-kubectl create namespace argocd
-# Install Argo CD
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
 # Install Istio and set it to work with default namespace (use specific namespaces for your apps in prod!)
 kubectl create namespace istio-system
 istioctl install -y
@@ -26,9 +21,14 @@ kubectl label namespace default istio-injection=enabled
 
 # addons
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.21/samples/addons/prometheus.yaml
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.21/samples/addons/jaeger.yaml
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.21/samples/addons/grafana.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.21/samples/addons/jaeger.yaml
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.21/samples/addons/kiali.yaml
+
+# Create namespace for Argo CD
+kubectl create namespace argocd
+# Install Argo CD
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 # Install custom resource definitions:
 kubectl create -f https://download.elastic.co/downloads/eck/2.12.1/crds.yaml
@@ -68,5 +68,5 @@ echo "k8s dashboard password: $(kubectl -n kubernetes-dashboard create token adm
 # sets context to work on default namespace
 kubectl config set-context --current --namespace default
 
-# deploy simple nginx pods, replicaset and service
-kubectl apply -f deployment-v1.yaml
+# deploy pods, replicaset, services, virtual services and destination
+kubectl apply -f ./cluster-resources/.

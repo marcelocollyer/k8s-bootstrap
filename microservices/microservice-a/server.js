@@ -11,7 +11,7 @@ app.get('/', async (req, res) => {
     try {
         console.log(`${microserviceId}. calling Microservice B`);
         const response = await axios.get(microserviceBUrl);
-        res.send(`${microserviceId}. -> ${response.data}`);
+        res.send(`${microserviceId} -> ${response.data}`);
     } catch (error) {
         res.status(500).send(`${microserviceId}. Failed to fetch data from Microservice B`);
     }

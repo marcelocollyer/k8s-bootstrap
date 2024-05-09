@@ -27,7 +27,7 @@ kubectl config set-context --current --namespace default
 kubectl apply -f ./cluster-resources/.
 
 #let's give kiali some time to load. 30s is probably enough
-sleep 15
+sleep 30
 
 # start kiali dashboard
 istioctl dashboard kiali &

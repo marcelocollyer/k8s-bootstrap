@@ -11,14 +11,10 @@ Consider the challenge of ensuring that, upon a new blue-green or canary deploym
 - **Kiali**: A visualization tool that provides insights into the traffic flow and interactions among microservices, facilitating the management of Istio's configurations and ensuring effective rule enforcement.
 - **Monitoring and Observability Tools**:
   - **Prometheus & Grafana**: For real-time monitoring and visualization.
-  - **ELK Stack (Elasticsearch, Logstash, Kibana)**: For comprehensive logging and search capabilities.
-  - **Jaeger**: For tracing and visualizing request flows within the service mesh.
-- **Kubernetes Dashboard & ArgoCD**: These facilitate streamlined management and continuous deployment processes, enabling more efficient operation workflows.
 
 ## Project Structure
 ```plaintext
 ├── cluster-resources         # Deployment related yaml files
-├── elastic/                  # ELK stack yaml files
 ├── k8s-dashboard/            # Kubernetes dashboard yaml files
 ├── microservices/            # Source code for each microservice
 │   ├── microservice-a/       # NodeJS containerized microservice that serves as an entry point and calls microservice-b
@@ -30,7 +26,6 @@ Consider the challenge of ensuring that, upon a new blue-green or canary deploym
 Before getting started with this project, ensure that you have the following prerequisites installed on your local machine:
 - **Docker**: This is a containerization platform used to run applications in isolated environments. It provides an easy way to package and deploy software components.
 - **kubectl**: This command line tool allows you to interact with Kubernetes clusters. It's essential for managing deployments, scaling, and monitoring.
-- **Helm**: Helm is a package manager that simplifies the installation of Kubernetes resources. It helps automate the deployment process by providing preconfigured configurations.
 - **K3D**: K3D is a lightweight wrapper that runs k3s (a lightweight Kubernetes distribution) in Docker. It's great for local development and testing, providing a quick and easy way to spin up a Kubernetes cluster.
 
 Kubernetes is known to be resource intensive so I recommend at least 4 CPU cores and 8 GB of RAM dedicated to Docker.</br>
@@ -50,12 +45,6 @@ script in case you have a more limited resources machine.
 - Build and deploy three microservices that talk to each other to be used as our targets
 - Setup Virtual Services and Destination Rules to route traffic between services within the mesh.
 
-## Secondary Objetives (optional)
-- Setup a Jaeger service to trace requests between services within the mesh.
-- Configure ELK stack to collect logs and visualize metrics from the microservices deployed in the cluster.
-- Setup ArgoCD to rollout and manage deployments for the microservices deployed in the cluster.
-- Setup Kubernetes Dashboard to visualize deployments, pods, services, etc.
-
 Side Note: K3D has been adopted for this POC but I left minikube commands commented out in case you want to try it out instead.
 
 ## Getting Started
@@ -67,7 +56,7 @@ git clone https://github.com/marcelocollyer/k8s-version-control
 ~~~
 ### Run Bootstrap Script
 This should deploy versions v1 and v2 of the microservices to simulate a blue-green deployment. Traffic will be 50% - 50% for each microservice version stack.
-It will open Kiali's dashboard after the execution which should open already authenticated. Keep eyes on the script output to see passwords and tokens for additional services like Kibana (optional).
+It will open Kiali's dashboard after the execution which should open already authenticated.
 ~~~
 chmod +x bootstrap.sh
 ./bootstrap.sh
@@ -120,10 +109,6 @@ Key outcomes of the project include:
 - **Effective Version Isolation**: Using Istio’s Virtual Services and Destination Rules, we established strict communication protocols between microservices based on their versions. This ensured that only compatible versions of services could interact, significantly reducing the risk of errors due to incompatible API endpoints.
 - **Enhanced Observability**: With tools like Kiali, Prometheus, and Grafana integrated into the service mesh, we gained deep insights into the behavior and performance of our microservices. This observability is crucial for diagnosing issues, understanding traffic patterns, and making informed decisions about scaling and optimizations.
 - **Development and Testing Flexibility**: The use of K3D for local development and testing provided a lightweight, yet fully functional, Kubernetes environment that mimics production settings, allowing for accurate testing and development without heavy resource consumption and unnecessary costs.
-
-Additionally, this project is well-positioned to take advantage of ArgoCD's rollout strategies in production environments. ArgoCD enhances our deployment capabilities by enabling automated, predictable, and safe application deployment workflows. </br>
-Using ArgoCD's progressive delivery techniques such as canary releases and blue-green deployments, organizations can gradually introduce new features and roll back if anomalies are detected, thus increasing the resilience and reliability of the deployment process. </br>
-Integrating ArgoCD into our Kubernetes ecosystem allows us to streamline our CI/CD pipelines, ensuring that updates are delivered efficiently and without user disruption.
 
 Through this proof of concept, it has become evident that a well-configured Kubernetes and Istio environment can serve as a robust foundation for developing and deploying scalable, resilient, and secure microservice architectures. Future enhancements will focus on expanding the use of automated deployment strategies, exploring more complex service interaction patterns, and refining our observability stack to include more granular tracing and logging capabilities.
 
